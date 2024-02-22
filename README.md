@@ -26,3 +26,27 @@ $ ./test
 $ ./test_inline
 1 + 2 = 3
 ```
+
+You can apply multiple transformations at once:
+
+```bash
+$ cat test_comment.c 
+#include "stdlib.h"
+
+int main()
+{
+    /*foo*/
+    foo();
+    //bar or baz
+    #ifdef BAR
+    bar();
+    #else
+    baz();
+    #endif
+}
+$ python main.py test_comment.c remove_comments remove_preprocessor_directives remove_blank_lines
+int main()
+{
+    foo();
+}
+```

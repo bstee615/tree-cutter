@@ -2,7 +2,7 @@
 
 int main()
 {
-	/*foo*/
+    /*foo*/
     foo();
     //bar or baz
     #ifdef BAR

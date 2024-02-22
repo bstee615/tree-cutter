@@ -7,12 +7,16 @@ def parse_args():
     parser.add_argument('transforms', nargs="+", help='Transforms to apply', choices=TRANSFORM_MAP.keys())
     return parser.parse_args()
 
+def process(code, transforms):
+    for transform in transforms:
+        code = TRANSFORM_MAP[transform](code)
+    return code
+
 def main():
     args = parse_args()
     with open(args.source_file, 'r') as file:
         code = file.read()
-    for transform in args.transforms:
-        code = TRANSFORM_MAP[transform](code)
+    code = process(code, args.transforms)
     print(code)
 
 if __name__ == '__main__':

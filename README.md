@@ -13,7 +13,7 @@ Limitations:
 Run the tool and compile the test programs:
 
 ```bash
-python inline.py test.c foo > test_inline.c
+python tree_cutter/inline.py test.c foo > test_inline.c
 gcc test.c -o test
 gcc test_inline.c -o test_inline
 ```

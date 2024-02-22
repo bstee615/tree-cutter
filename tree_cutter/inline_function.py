@@ -80,31 +80,32 @@ def do_replacements(text, replacements):
     replacements = sorted(replacements, key=lambda p: p[0][0], reverse=True)
     # apply to text in order
     for (begin, end), new_text in replacements:
-        # print("REPLACEMENT", (begin, end))
-        # print(new_text)
-        # print("ENDREPLACEMENT")
         text = text[:begin] + new_text + text[end:]
     return text
 
-def main():
-    args = parse_args()
-
+def inline_function(code, function_name):
     parser = get_parser("c")
-
-    with open(args.source_file, 'r') as file:
-        code = file.read()
 
     tree = parser.parse(bytes(code, 'utf-8'))
 
-    funcdef_node = get_function_node(tree, args.function_name)
+    funcdef_node = get_function_node(tree, function_name)
 
     replacements = []
     if funcdef_node:
-        calls = get_function_calls(tree, args.function_name)
+        calls = get_function_calls(tree, function_name)
         for call in calls:
             replacements.append(generate_replacement(call, funcdef_node))
 
     new_text = do_replacements(tree.text, replacements).decode()
+    return new_text
+
+def main():
+    args = parse_args()
+
+    with open(args.source_file, 'r') as file:
+        code = file.read()
+
+    new_text = inline_function(code, args.function_name)
     print(new_text)
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 import argparse
-from tree_cutter import TRANSFORM_MAP
+from tree_cutter import TRANSFORM_MAP, process
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Inline functions in a C program')
@@ -7,10 +7,6 @@ def parse_args():
     parser.add_argument('transforms', nargs="+", help='Transforms to apply', choices=TRANSFORM_MAP.keys())
     return parser.parse_args()
 
-def process(code, transforms):
-    for transform in transforms:
-        code = TRANSFORM_MAP[transform](code)
-    return code
 
 def main():
     args = parse_args()

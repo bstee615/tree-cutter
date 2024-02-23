@@ -1,5 +1,8 @@
 #include "stdlib.h"
 
+/*
+Multiline comment
+*/
 int main()
 {
     /*foo*/

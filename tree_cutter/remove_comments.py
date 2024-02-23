@@ -40,7 +40,12 @@ def remove_comments(code):
     comments = get_comments(tree)
     replacements = []
     for node in comments:
-        replacements.append(Replacement(node.start_byte, node.end_byte, ""))
+        if node.text.decode()[2:].startswith("__TREECUTTER_MARKER__"):
+            # Cut __TREECUTTER_MARKER__ from text, keep the rest
+            replacement = Replacement(node.start_byte+2, node.start_byte+2+len("__TREECUTTER_MARKER__")+1, "")
+        else:
+            replacement = Replacement(node.start_byte, node.end_byte, "")
+        replacements.append(replacement)
 
     new_text = do_replacements(tree.text, replacements).decode()
     return new_text
